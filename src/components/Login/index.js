@@ -2,6 +2,8 @@ import { useState } from 'react'
 import Cookies from 'js-cookie'
 import { useNavigate, Navigate } from 'react-router-dom'
 
+import './index.css'
+
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -10,52 +12,67 @@ const Login = () => {
 
   const navigate = useNavigate()
 
-  const onSubmitSuccess = jwtToken => {
-    // Save token in cookies for 30 days
-    Cookies.set('jwt_token', jwtToken, {expires: 30})
-
-    // Redirect to home page
+  const onSubmitSuccess = token => {
+    Cookies.set('jwt_token', token, { expires: 30 })
     navigate('/')
   }
 
   const submitForm = async event => {
     event.preventDefault()
 
-    const userDetails = {username, password}
-    const url = 'https://apis.ccbp.in/login'
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userDetails),
+    // basic validation
+    if (username.trim() === '' || password.trim() === '') {
+      setShowSubmitError(true)
+      setErrorMsg('Username and password required')
+      return
     }
 
-    const response = await fetch(url, options)
-    const data = await response.json()
+    const url = 'https://dummyjson.com/auth/login'
 
-    if (response.ok === true) {
-      onSubmitSuccess(data.jwt_token)
-    } else {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      })
+
+      const data = await response.json()
+      console.log(data) // 🔍 see actual response
+
+      if (response.ok) {
+        // ✅ correct field
+        onSubmitSuccess(data.token)
+      } else {
+        setShowSubmitError(true)
+        setErrorMsg(data.message)
+      }
+    } catch (error) {
       setShowSubmitError(true)
-      setErrorMsg(data.error_msg)
+      setErrorMsg('Something went wrong')
     }
   }
 
-  // If already logged in, redirect to home
+  // redirect if already logged in
   const jwtToken = Cookies.get('jwt_token')
   if (jwtToken !== undefined) {
-    return <Navigate to="/" />
+    return <Navigate to="/" replace />
   }
 
   return (
     <div className="login-form-container">
-      <form onSubmit={submitForm}>
-        <h1>Login</h1>
+      <form className="login-form" onSubmit={submitForm}>
+        <h1 className="head">Login</h1>
 
-        <label htmlFor="username">USERNAME</label>
+        <label className="input-label" htmlFor="username">
+          USERNAME
+        </label>
         <input
+          className="input"
           type="text"
           id="username"
           value={username}
@@ -64,8 +81,11 @@ const Login = () => {
 
         <br />
 
-        <label htmlFor="password">PASSWORD</label>
+        <label className="input-label" htmlFor="password">
+          PASSWORD
+        </label>
         <input
+          className="input"
           type="password"
           id="password"
           value={password}
@@ -74,12 +94,22 @@ const Login = () => {
 
         <br />
 
-        <button type="submit">Login</button>
+        <button className="login-btn" type="submit">
+          Login
+        </button>
 
-        {showSubmitError && <p>*{errorMsg}</p>}
+        {showSubmitError && <p className="error">* {errorMsg}</p>}
       </form>
     </div>
   )
 }
 
 export default Login
+
+
+
+
+//============== valid credentials ============== 
+
+ /* username : emilys
+  password : emilyspass  */

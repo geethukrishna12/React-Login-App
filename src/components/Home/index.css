@@ -1,0 +1,84 @@
+.home-container{
+    min-height: 100vh;
+    max-height: 100vh;
+
+    padding:40px 50px;
+    overflow: hidden;
+    background-image: linear-gradient(to right,#57cae7,rgb(125, 125, 243), hsl(300, 87%, 31%) );
+}
+.background-image-container{       
+    background-image: url("../../assets/images/istockphoto.jpg");
+     background-size: cover;
+     background-position: center;
+     max-height: 800px;
+     min-height: 600px;
+     border-radius: 20px;
+     color: white;   
+     padding-left: 30px;  
+     padding-top: 10px;
+     padding-right: 30px;
+
+     display: flex;
+     flex-direction: column;
+        
+}
+
+.navbar{
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.link-items{
+    list-style-type: none;
+    gap: 30px;    
+    display: flex;
+    justify-content: space-between;
+ 
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+a:hover{
+    color: rgb(126, 7, 126);
+
+}
+.logout-btn{
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    color: white;
+    width: 90px;
+    height: 40px;
+     background-image: linear-gradient(to right,#57cae7,rgb(125, 125, 243), hsl(300, 87%, 31%) );
+   
+}
+.landing-section{
+    width: 600px;
+    align-self: flex-start;
+    margin-top: 100px;
+}
+.btn-container{
+
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+.btn{
+    height: 30px;
+    width: 120px;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+}
+.btn-apply{
+    background-color: azure;
+    color: rgba(31, 30, 30, 0.788);
+}
+.btn-learn{
+    background-color: transparent;
+    border: 1px solid azure;
+    color: azure;
+}
